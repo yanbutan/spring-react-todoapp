@@ -20,7 +20,7 @@ CREATE TABLE IF NOT EXISTS task (
     dateCompleted TIMESTAMP,
     status status,
     PRIMARY KEY (id),
-    user_id INT NOT NULL REFERENCES person(id) ON DELETE CASCADE
+    userId INT NOT NULL REFERENCES person(id) ON DELETE CASCADE
 );
 
 CREATE TABLE IF NOT EXISTS location (
@@ -29,5 +29,5 @@ CREATE TABLE IF NOT EXISTS location (
     address VARCHAR (65535) NOT NULL,
     postalCode INTEGER CHECK (postalCode < 1000000) NOT NULL,
     PRIMARY KEY (id),
-    task_id INT NOT NULL REFERENCES task(id) ON DELETE CASCADE
+    taskId INT NOT NULL REFERENCES task(id) ON DELETE CASCADE
 );

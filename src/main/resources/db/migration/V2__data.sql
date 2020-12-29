@@ -5,7 +5,7 @@ VALUES ('Bob Dylan', 'bobby', 'password', 'bobby@gmail.com'),
        ('Robin Tan', 'robin', 'password', 'robin@gmail.com'),
        ('Tan Ah Kau', 'tak', 'password', 'tak@gmail.com');
 
-INSERT INTO task (name, description, taskType, dateCreated, dateToComplete, dateCompleted, status, user_id)
+INSERT INTO task (name, description, taskType, dateCreated, dateToComplete, dateCompleted, status, userId)
 VALUES ('Do homework', 'Do homework lah bodoh', 'SCHOOL_WORK', '2016-06-22 19:10:25-07', '2016-06-24 19:10:25-07', '2016-06-23 19:10:25-07', 'COMPLETED', 1),
        ('Finish assignment', 'Default description', 'SCHOOL_WORK', '2016-06-23 19:10:25-07', '2016-06-27 19:10:25-07', null, 'ONGOING', 1),
        ('Document code', 'Default description', 'PART_TIME', '2016-06-24 19:10:25-07', '2016-06-28 19:10:25-07', null, 'ONGOING', 2),
@@ -17,7 +17,7 @@ VALUES ('Do homework', 'Do homework lah bodoh', 'SCHOOL_WORK', '2016-06-22 19:10
        ('Clean room', 'Default description', 'HOUSE_CHORES', '2016-06-30 19:10:25-07', '2016-06-30 20:10:25-07', '2016-06-30 19:45:25-07', 'COMPLETED', 5),
        ('Take out trash', 'Default description', 'HOUSE_CHORES', '2016-06-30 20:10:25-07', '2016-06-30 22:10:25-07', null, 'ONGOING', 5);
 
-INSERT INTO location(name, address, postalCode, task_id)
+INSERT INTO location(name, address, postalCode, taskId)
 VALUES ('Home', 'Home ave 1',666666, 1),
        ('Home2', 'Home ave 2',666667, 2),
        ('Home3', 'Home ave 3',666668, 3),

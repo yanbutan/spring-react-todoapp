@@ -1,6 +1,10 @@
 package com.yanbu.toDoApp.model;
 
-import java.sql.Timestamp;
+import com.fasterxml.jackson.annotation.JsonFormat;
+import com.yanbu.toDoApp.enums.Status;
+import com.yanbu.toDoApp.enums.TaskType;
+
+import java.time.LocalDateTime;
 
 public class Task {
     private Integer id;
@@ -8,9 +12,12 @@ public class Task {
     private String description;
     private TaskType taskType;
     private Status status;
-    private Timestamp dateCreated;
-    private Timestamp dateToComplete;
-    private Timestamp dateCompleted;
+    @JsonFormat(pattern = "yyyy-MM-dd HH:mm:ss")
+    private LocalDateTime dateCreated;
+    @JsonFormat(pattern = "yyyy-MM-dd HH:mm:ss")
+    private LocalDateTime dateToComplete;
+    @JsonFormat(pattern = "yyyy-MM-dd HH:mm:ss")
+    private LocalDateTime dateCompleted;
     private Integer user_id;
 
     public Task(String name, Integer user_id) {
@@ -18,13 +25,32 @@ public class Task {
         this.user_id = user_id;
     }
 
-    public Task(String name, String description, TaskType taskType, Status status, Timestamp dateCreated, Timestamp dateToComplete, Integer user_id) {
+    public Task(String name, String description, TaskType taskType, Status status, LocalDateTime dateCreated, LocalDateTime dateToComplete, Integer user_id) {
         this.name = name;
         this.description = description;
         this.taskType = taskType;
         this.status = status;
         this.dateCreated = dateCreated;
         this.dateToComplete = dateToComplete;
+        this.user_id = user_id;
+    }
+
+    public Task(Integer id, String name, String description, Integer user_id) {
+        this.id = id;
+        this.name = name;
+        this.description = description;
+        this.user_id = user_id;
+    }
+
+    public Task(Integer id, String name, String description, TaskType taskType, Status status, LocalDateTime dateCreated, LocalDateTime dateToComplete, LocalDateTime dateCompleted, Integer user_id) {
+        this.id = id;
+        this.name = name;
+        this.description = description;
+        this.taskType = taskType;
+        this.status = status;
+        this.dateCreated = dateCreated;
+        this.dateToComplete = dateToComplete;
+        this.dateCompleted = dateCompleted;
         this.user_id = user_id;
     }
 
@@ -68,27 +94,27 @@ public class Task {
         this.status = status;
     }
 
-    public Timestamp getDateCreated() {
+    public LocalDateTime getDateCreated() {
         return dateCreated;
     }
 
-    public void setDateCreated(Timestamp dateCreated) {
+    public void setDateCreated(LocalDateTime dateCreated) {
         this.dateCreated = dateCreated;
     }
 
-    public Timestamp getDateToComplete() {
+    public LocalDateTime getDateToComplete() {
         return dateToComplete;
     }
 
-    public void setDateToComplete(Timestamp dateToComplete) {
+    public void setDateToComplete(LocalDateTime dateToComplete) {
         this.dateToComplete = dateToComplete;
     }
 
-    public Timestamp getDateCompleted() {
+    public LocalDateTime getDateCompleted() {
         return dateCompleted;
     }
 
-    public void setDateCompleted(Timestamp dateCompleted) {
+    public void setDateCompleted(LocalDateTime dateCompleted) {
         this.dateCompleted = dateCompleted;
     }
 
@@ -100,11 +126,5 @@ public class Task {
         this.user_id = user_id;
     }
 
-    enum TaskType {
-        HOUSE_CHORES, SCHOOL_WORK, PART_TIME, INTERN, WORK, FITNESS, HEALTH
-    }
 
-    enum Status {
-        ONGOING, PAUSED, OVERDUE, COMPLETED
-    }
 }
