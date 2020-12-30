@@ -29,7 +29,7 @@ public class TaskController {
     }
 
     @PostMapping("/addTask")
-    public ResponseEntity<Task> addTask(HttpServletRequest request,
+    public ResponseEntity<Integer> addTask(HttpServletRequest request,
                                         @RequestBody Map<String, String> taskMap
                                         ){
         int userId = (Integer) request.getAttribute(("userId"));
@@ -40,7 +40,7 @@ public class TaskController {
         String dateToComplete = (String) taskMap.get("dateToComplete");
         String dateCompleted = (String) taskMap.get("dateCompleted");
         String status = (String) taskMap.get("status");
-        Task task = taskService.addTask(userId, name, description, taskType, dateCreated, dateToComplete, dateCompleted, status);
-        return new ResponseEntity<>(task, HttpStatus.CREATED);
+        Integer taskId = taskService.addTask(userId, name, description, taskType, dateCreated, dateToComplete, dateCompleted, status);
+        return new ResponseEntity<>(taskId, HttpStatus.CREATED);
     }
 }

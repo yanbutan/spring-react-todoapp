@@ -11,7 +11,7 @@ public interface TaskServiceInt {
 
     Task fetchTaskById(Integer userId, Integer taskId) throws ResourceNotFoundException;
 
-    Task addTask(Integer userId, String name, String description, String taskType, String dateCreated, String dateToComplete, String dateCompleted, String status) throws BadRequestException;
+    Integer addTask(Integer userId, String name, String description, String taskType, String dateCreated, String dateToComplete, String dateCompleted, String status) throws BadRequestException;
 
     void updateTask(Integer userId, String name, String description, String taskType, String dateCreated, String dateToComplete, String dateCompleted, String status) throws  BadRequestException;
 

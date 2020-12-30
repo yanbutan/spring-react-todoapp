@@ -28,9 +28,8 @@ public class TaskService implements TaskServiceInt {
     }
 
     @Override
-    public Task addTask(Integer userId, String name, String description, String taskType, String dateCreated, String dateToComplete, String dateCompleted, String status) throws BadRequestException {
-        int taskId = taskDao.create(userId, name, description, taskType, dateCreated, dateToComplete, dateCompleted, status);
-        return taskDao.findById(userId, taskId);
+    public Integer addTask(Integer userId, String name, String description, String taskType, String dateCreated, String dateToComplete, String dateCompleted, String status) throws BadRequestException {
+        return taskDao.create(userId, name, description, taskType, dateCreated, dateToComplete, dateCompleted, status);
     }
 
     @Override
