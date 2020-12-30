@@ -11,7 +11,7 @@ public interface TaskDao {
 
     List<Task> findAll(Integer userId) throws ResourceNotFoundException;
 
-    Task findById(Integer userId, Integer taskId) throws ResourceNotFoundException;
+    Task findById(Integer userId, Integer taskId) throws ResourceNotFoundException, IllegalArgumentException;
 
     Integer create(Integer userId, String name, String description, String taskType, String dateCreated, String dateToComplete, String dateCompleted, String status) throws BadRequestException, ParseException;
 

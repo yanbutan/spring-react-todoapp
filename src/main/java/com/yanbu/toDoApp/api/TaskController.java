@@ -39,7 +39,7 @@ public class TaskController {
         return new ResponseEntity<>(task, HttpStatus.OK);
     }
 
-    @PostMapping("/addTask")
+    @PostMapping
     public ResponseEntity<Integer> addTask(HttpServletRequest request,
                                         @RequestBody Map<String, String> taskMap
                                         ){

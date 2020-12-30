@@ -25,10 +25,11 @@ public class Task {
         this.user_id = user_id;
     }
 
-    public Task(Integer id, String name, String description, Timestamp dateCreated, Timestamp dateToComplete, Timestamp dateCompleted, Integer user_id) {
+    public Task(Integer id, String name, String description, Status status, Timestamp dateCreated, Timestamp dateToComplete, Timestamp dateCompleted, Integer user_id) {
         this.id = id;
         this.name = name;
         this.description = description;
+        this.status = status;
         this.dateCreated = dateCreated;
         this.dateToComplete = dateToComplete;
         this.dateCompleted = dateCompleted;
@@ -52,7 +53,7 @@ public class Task {
         this.user_id = user_id;
     }
 
-    public Task(Integer id, String name, String description, TaskType taskType, Status status, Timestamp dateCreated, Timestamp dateToComplete, Integer user_id) {
+    public Task(Integer id, String name, String description, TaskType taskType, Status status, Timestamp dateCreated, Timestamp dateToComplete, Timestamp dateCompleted, Integer user_id) {
         this.id = id;
         this.name = name;
         this.description = description;
@@ -60,6 +61,7 @@ public class Task {
         this.status = status;
         this.dateCreated = dateCreated;
         this.dateToComplete = dateToComplete;
+        this.dateCompleted = dateCompleted;
         this.user_id = user_id;
     }
 

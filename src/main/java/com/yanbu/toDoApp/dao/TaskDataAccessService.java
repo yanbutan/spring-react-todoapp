@@ -11,10 +11,7 @@ import org.springframework.jdbc.support.GeneratedKeyHolder;
 import org.springframework.jdbc.support.KeyHolder;
 import org.springframework.stereotype.Repository;
 
-import java.sql.PreparedStatement;
-import java.sql.Statement;
-import java.sql.Time;
-import java.sql.Timestamp;
+import java.sql.*;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.time.LocalDateTime;
@@ -31,9 +28,9 @@ public class TaskDataAccessService implements TaskDao {
         this.jdbcTemplate = jdbcTemplate;
     }
 
-    private static final String SQL_CREATE = "INSERT INTO task (name, description, userId, dateToComplete)" +
-            " VALUES (?,?,?,?)";
-    private static final String SQL_FIND_BY_ID = "SELECT id, name, description, dateCreated, dateToComplete, dateCompleted FROM task WHERE id = ?";
+    private static final String SQL_CREATE = "INSERT INTO task (name, description, taskType, status, dateToComplete, userId)" +
+            " VALUES (?,?,?::taskType,?::status,?,?)";
+    private static final String SQL_FIND_BY_ID = "SELECT id, name, description, taskType, status, dateCreated, dateToComplete, dateCompleted FROM task WHERE id = ?";
 
     @Override
     public List<Task> findAll(Integer userId) throws ResourceNotFoundException {
@@ -41,21 +38,23 @@ public class TaskDataAccessService implements TaskDao {
     }
 
     @Override
-    public Task findById(Integer userId, Integer taskId) throws ResourceNotFoundException {
+    public Task findById(Integer userId, Integer taskId) throws ResourceNotFoundException, IllegalArgumentException {
         try{
             return jdbcTemplate.queryForObject(SQL_FIND_BY_ID, new Object[]{taskId}, (resultSet, i) -> {
                 Integer id = resultSet.getInt("id");
                 String name = resultSet.getString("name");
                 String description = resultSet.getString("description");
-//                TaskType taskType = TaskType.valueOf(resultSet.getString("taskType"));
+                TaskType taskType = TaskType.valueOf(resultSet.getString("taskType"));
                 Timestamp dateCreated =resultSet.getTimestamp("dateCreated");
                 Timestamp dateToComplete = resultSet.getTimestamp("dateToComplete");
                 Timestamp dateCompleted = resultSet.getTimestamp("dateCompleted");
-//                Status status = Status.valueOf(resultSet.getString("status"));
-                return new Task(id, name, description, dateCreated, dateToComplete, dateCompleted, userId);
+                Status status = Status.valueOf(resultSet.getString("status"));
+                return new Task(id, name, description, taskType, status, dateCreated, dateToComplete, dateCompleted, userId);
             });
+        } catch (IllegalArgumentException e){
+            throw new IllegalArgumentException("Illegal Arugment Exception");
         } catch (Exception e){
-            throw new ResourceNotFoundException("Task not found");
+            throw new ResourceNotFoundException("Task not found : " + e);
         }
     }
 
@@ -77,17 +76,15 @@ public class TaskDataAccessService implements TaskDao {
                 PreparedStatement ps = connection.prepareStatement(SQL_CREATE, Statement.RETURN_GENERATED_KEYS);
                 ps.setString(1, name);
                 ps.setString(2, description);
-                ps.setInt(3, userId);
-//                ps.setString(4, taskType);
-//                ps.setString(5, status);
-//                ps.setString(6, dateCreated);
-                ps.setTimestamp(4, tempDateToComplete);
-//                ps.setString(8, dateCompleted);
+                ps.setString(3, taskType);
+                ps.setString(4, status == null ? "ONGOING": status);
+                ps.setTimestamp(5, tempDateToComplete);
+                ps.setInt(6, userId);
                 return ps;
             }, keyHolder);
             return (Integer) keyHolder.getKeys().get("id");
         } catch (Exception e){
-            throw new BadRequestException("Invalid Request");
+            throw new BadRequestException("Invalid Request : " + e );
         }
     }
 
