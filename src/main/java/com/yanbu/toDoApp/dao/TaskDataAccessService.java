@@ -13,6 +13,7 @@ import org.springframework.stereotype.Repository;
 
 import java.sql.PreparedStatement;
 import java.sql.Statement;
+import java.sql.Time;
 import java.sql.Timestamp;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
@@ -32,7 +33,7 @@ public class TaskDataAccessService implements TaskDao {
 
     private static final String SQL_CREATE = "INSERT INTO task (name, description, userId, dateToComplete)" +
             " VALUES (?,?,?,?)";
-    private static final String SQL_FIND_BY_ID = "SELECT id, name, description FROM task WHERE id = ?";
+    private static final String SQL_FIND_BY_ID = "SELECT id, name, description, dateCreated, dateToComplete, dateCompleted FROM task WHERE id = ?";
 
     @Override
     public List<Task> findAll(Integer userId) throws ResourceNotFoundException {
@@ -41,18 +42,17 @@ public class TaskDataAccessService implements TaskDao {
 
     @Override
     public Task findById(Integer userId, Integer taskId) throws ResourceNotFoundException {
-        DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss");
         try{
             return jdbcTemplate.queryForObject(SQL_FIND_BY_ID, new Object[]{taskId}, (resultSet, i) -> {
                 Integer id = resultSet.getInt("id");
                 String name = resultSet.getString("name");
                 String description = resultSet.getString("description");
-                TaskType taskType = TaskType.valueOf(resultSet.getString("taskType"));
-//                LocalDateTime dateCreated = LocalDateTime.parse(resultSet.getString("dateCreated"), formatter);
-//                LocalDateTime dateToComplete = LocalDateTime.parse(resultSet.getString("dateToComplete"), formatter);
-//                LocalDateTime dateCompleted = LocalDateTime.parse(resultSet.getString("dateCompleted"), formatter);
-                Status status = Status.valueOf(resultSet.getString("status"));
-                return new Task(id, name, description, userId);
+//                TaskType taskType = TaskType.valueOf(resultSet.getString("taskType"));
+                Timestamp dateCreated =resultSet.getTimestamp("dateCreated");
+                Timestamp dateToComplete = resultSet.getTimestamp("dateToComplete");
+                Timestamp dateCompleted = resultSet.getTimestamp("dateCompleted");
+//                Status status = Status.valueOf(resultSet.getString("status"));
+                return new Task(id, name, description, dateCreated, dateToComplete, dateCompleted, userId);
             });
         } catch (Exception e){
             throw new ResourceNotFoundException("Task not found");
@@ -61,15 +61,14 @@ public class TaskDataAccessService implements TaskDao {
 
 
     @Override
-    public Integer create(Integer userId, String name, String description, String taskType, String dateCreated, String dateToComplete, String dateCompleted, String status) throws BadRequestException {
+    public Integer create(Integer userId, String name, String description, String taskType, String dateCreated, String dateToComplete, String dateCompleted, String status) throws BadRequestException, ParseException {
         System.out.println("DATA PASSED " + userId + " " + name + " " + description);
         Date parsedDate;
         try {
             SimpleDateFormat formatter = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
             parsedDate = formatter.parse(dateToComplete);
         } catch (ParseException e){
-            System.out.println(("Exception " + e ));
-            return null;
+            throw new ParseException("Invalid date time parse format", 1);
         }
         try {
             KeyHolder keyHolder = new GeneratedKeyHolder();

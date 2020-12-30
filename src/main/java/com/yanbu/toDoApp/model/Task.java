@@ -4,7 +4,7 @@ import com.fasterxml.jackson.annotation.JsonFormat;
 import com.yanbu.toDoApp.enums.Status;
 import com.yanbu.toDoApp.enums.TaskType;
 
-import java.time.LocalDateTime;
+import java.sql.Timestamp;
 
 public class Task {
     private Integer id;
@@ -13,11 +13,11 @@ public class Task {
     private TaskType taskType;
     private Status status;
     @JsonFormat(pattern = "yyyy-MM-dd HH:mm:ss")
-    private LocalDateTime dateCreated;
+    private Timestamp dateCreated;
     @JsonFormat(pattern = "yyyy-MM-dd HH:mm:ss")
-    private LocalDateTime dateToComplete;
+    private Timestamp dateToComplete;
     @JsonFormat(pattern = "yyyy-MM-dd HH:mm:ss")
-    private LocalDateTime dateCompleted;
+    private Timestamp dateCompleted;
     private Integer user_id;
 
     public Task(String name, Integer user_id) {
@@ -25,7 +25,17 @@ public class Task {
         this.user_id = user_id;
     }
 
-    public Task(String name, String description, TaskType taskType, Status status, LocalDateTime dateCreated, LocalDateTime dateToComplete, Integer user_id) {
+    public Task(Integer id, String name, String description, Timestamp dateCreated, Timestamp dateToComplete, Timestamp dateCompleted, Integer user_id) {
+        this.id = id;
+        this.name = name;
+        this.description = description;
+        this.dateCreated = dateCreated;
+        this.dateToComplete = dateToComplete;
+        this.dateCompleted = dateCompleted;
+        this.user_id = user_id;
+    }
+
+    public Task(String name, String description, TaskType taskType, Status status, Timestamp dateCreated, Timestamp dateToComplete, Integer user_id) {
         this.name = name;
         this.description = description;
         this.taskType = taskType;
@@ -42,7 +52,7 @@ public class Task {
         this.user_id = user_id;
     }
 
-    public Task(Integer id, String name, String description, TaskType taskType, Status status, LocalDateTime dateCreated, LocalDateTime dateToComplete, LocalDateTime dateCompleted, Integer user_id) {
+    public Task(Integer id, String name, String description, TaskType taskType, Status status, Timestamp dateCreated, Timestamp dateToComplete, Integer user_id) {
         this.id = id;
         this.name = name;
         this.description = description;
@@ -50,7 +60,6 @@ public class Task {
         this.status = status;
         this.dateCreated = dateCreated;
         this.dateToComplete = dateToComplete;
-        this.dateCompleted = dateCompleted;
         this.user_id = user_id;
     }
 
@@ -94,27 +103,27 @@ public class Task {
         this.status = status;
     }
 
-    public LocalDateTime getDateCreated() {
+    public Timestamp getDateCreated() {
         return dateCreated;
     }
 
-    public void setDateCreated(LocalDateTime dateCreated) {
+    public void setDateCreated(Timestamp dateCreated) {
         this.dateCreated = dateCreated;
     }
 
-    public LocalDateTime getDateToComplete() {
+    public Timestamp getDateToComplete() {
         return dateToComplete;
     }
 
-    public void setDateToComplete(LocalDateTime dateToComplete) {
+    public void setDateToComplete(Timestamp dateToComplete) {
         this.dateToComplete = dateToComplete;
     }
 
-    public LocalDateTime getDateCompleted() {
+    public Timestamp getDateCompleted() {
         return dateCompleted;
     }
 
-    public void setDateCompleted(LocalDateTime dateCompleted) {
+    public void setDateCompleted(Timestamp dateCompleted) {
         this.dateCompleted = dateCompleted;
     }
 

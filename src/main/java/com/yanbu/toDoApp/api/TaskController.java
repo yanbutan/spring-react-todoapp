@@ -8,6 +8,8 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import javax.servlet.http.HttpServletRequest;
+import java.lang.annotation.Repeatable;
+import java.text.ParseException;
 import java.util.Map;
 
 @RestController
@@ -28,6 +30,15 @@ public class TaskController {
         return "Walao Eh : " + userId;
     }
 
+    @GetMapping("/{taskId}")
+    public ResponseEntity<Task> getTaskById(HttpServletRequest request,
+                            @PathVariable("taskId") Integer taskId
+                            ){
+        int userId = (Integer) request.getAttribute(("userId"));
+        Task task = taskService.fetchTaskById(userId, taskId);
+        return new ResponseEntity<>(task, HttpStatus.OK);
+    }
+
     @PostMapping("/addTask")
     public ResponseEntity<Integer> addTask(HttpServletRequest request,
                                         @RequestBody Map<String, String> taskMap
@@ -40,7 +51,12 @@ public class TaskController {
         String dateToComplete = (String) taskMap.get("dateToComplete");
         String dateCompleted = (String) taskMap.get("dateCompleted");
         String status = (String) taskMap.get("status");
-        Integer taskId = taskService.addTask(userId, name, description, taskType, dateCreated, dateToComplete, dateCompleted, status);
+        Integer taskId = null;
+        try {
+            taskId = taskService.addTask(userId, name, description, taskType, dateCreated, dateToComplete, dateCompleted, status);
+        } catch (ParseException e) {
+            e.printStackTrace();
+        }
         return new ResponseEntity<>(taskId, HttpStatus.CREATED);
     }
 }

@@ -4,6 +4,7 @@ import com.yanbu.toDoApp.exception.BadRequestException;
 import com.yanbu.toDoApp.exception.ResourceNotFoundException;
 import com.yanbu.toDoApp.model.Task;
 
+import java.text.ParseException;
 import java.util.List;
 
 public interface TaskServiceInt {
@@ -11,7 +12,7 @@ public interface TaskServiceInt {
 
     Task fetchTaskById(Integer userId, Integer taskId) throws ResourceNotFoundException;
 
-    Integer addTask(Integer userId, String name, String description, String taskType, String dateCreated, String dateToComplete, String dateCompleted, String status) throws BadRequestException;
+    Integer addTask(Integer userId, String name, String description, String taskType, String dateCreated, String dateToComplete, String dateCompleted, String status) throws BadRequestException, ParseException;
 
     void updateTask(Integer userId, String name, String description, String taskType, String dateCreated, String dateToComplete, String dateCompleted, String status) throws  BadRequestException;
 

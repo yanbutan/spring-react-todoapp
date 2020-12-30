@@ -8,6 +8,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.text.ParseException;
 import java.util.List;
 
 @Service
@@ -24,11 +25,11 @@ public class TaskService implements TaskServiceInt {
 
     @Override
     public Task fetchTaskById(Integer userId, Integer taskId) throws ResourceNotFoundException {
-        return null;
+        return taskDao.findById(userId, taskId);
     }
 
     @Override
-    public Integer addTask(Integer userId, String name, String description, String taskType, String dateCreated, String dateToComplete, String dateCompleted, String status) throws BadRequestException {
+    public Integer addTask(Integer userId, String name, String description, String taskType, String dateCreated, String dateToComplete, String dateCompleted, String status) throws BadRequestException, ParseException {
         return taskDao.create(userId, name, description, taskType, dateCreated, dateToComplete, dateCompleted, status);
     }
 
