@@ -5,13 +5,25 @@ public class Location {
     private String name;
     private String address;
     private Integer postalCode;
-    private Integer task_id;
 
-    public Location(String name, String address, Integer postalCode, Integer task_id) {
+    private Integer taskId;
+
+    public Location() {
+    }
+
+    public Location(String name, String address, Integer postalCode, Integer taskId) {
         this.name = name;
         this.address = address;
         this.postalCode = postalCode;
-        this.task_id = task_id;
+        this.taskId = taskId;
+    }
+
+    public Location(Integer id, String name, String address, Integer postalCode, Integer taskId) {
+        this.id = id;
+        this.name = name;
+        this.address = address;
+        this.postalCode = postalCode;
+        this.taskId = taskId;
     }
 
     public Integer getId() {
@@ -46,11 +58,11 @@ public class Location {
         this.postalCode = postalCode;
     }
 
-    public Integer getTask_id() {
-        return task_id;
+    public Integer getTaskId() {
+        return taskId;
     }
 
-    public void setTask_id(Integer task_id) {
-        this.task_id = task_id;
+    public void setTaskId(Integer taskId) {
+        this.taskId = taskId;
     }
 }
