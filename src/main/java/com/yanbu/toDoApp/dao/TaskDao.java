@@ -15,7 +15,7 @@ public interface TaskDao {
 
     Integer create(Integer userId, String name, String description, String taskType, String dateCreated, String dateToComplete, String dateCompleted, String status) throws BadRequestException, ParseException;
 
-    void update(Integer userId, String name, String description, String taskType, String dateCreated, String dateToComplete, String dateCompleted, String status) throws  BadRequestException;
+    void update(Integer userId, Integer taskId, Task task) throws  BadRequestException;
 
     void remove(Integer userId, Integer taskId) throws ResourceNotFoundException;
 }

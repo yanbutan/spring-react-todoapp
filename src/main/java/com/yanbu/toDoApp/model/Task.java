@@ -20,6 +20,9 @@ public class Task {
     private Timestamp dateCompleted;
     private Integer user_id;
 
+    public Task() {
+    }
+
     public Task(String name, Integer user_id) {
         this.name = name;
         this.user_id = user_id;

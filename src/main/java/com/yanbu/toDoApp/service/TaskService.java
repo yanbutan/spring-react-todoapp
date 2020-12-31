@@ -20,7 +20,7 @@ public class TaskService implements TaskServiceInt {
 
     @Override
     public List<Task> fetchAllTasks(Integer userId) {
-        return null;
+        return taskDao.findAll(userId);
     }
 
     @Override
@@ -34,12 +34,12 @@ public class TaskService implements TaskServiceInt {
     }
 
     @Override
-    public void updateTask(Integer userId, String name, String description, String taskType, String dateCreated, String dateToComplete, String dateCompleted, String status) throws BadRequestException {
-
+    public void updateTask(Integer userId, Integer taskId, Task task) throws BadRequestException {
+        taskDao.update(userId, taskId, task);
     }
 
     @Override
     public void removeTask(Integer userId, Integer taskId) throws ResourceNotFoundException {
-
+        taskDao.remove(userId, taskId);
     }
 }

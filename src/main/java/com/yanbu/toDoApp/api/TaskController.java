@@ -10,6 +10,8 @@ import org.springframework.web.bind.annotation.*;
 import javax.servlet.http.HttpServletRequest;
 import java.lang.annotation.Repeatable;
 import java.text.ParseException;
+import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 
 @RestController
@@ -25,9 +27,10 @@ public class TaskController {
     }
 
     @GetMapping("")
-    public String getAllTasks(HttpServletRequest request){
+    public ResponseEntity<List<Task>> getAllTasks(HttpServletRequest request){
         int userId = (Integer) request.getAttribute("userId");
-        return "Walao Eh : " + userId;
+        List<Task> taskList = taskService.fetchAllTasks(userId);
+        return new ResponseEntity<>(taskList, HttpStatus.OK);
     }
 
     @GetMapping("/{taskId}")
@@ -58,5 +61,27 @@ public class TaskController {
             e.printStackTrace();
         }
         return new ResponseEntity<>(taskId, HttpStatus.CREATED);
+    }
+
+    @PutMapping("/{taskId}")
+    public ResponseEntity<Map<String, Boolean>> updateTask(HttpServletRequest request,
+                                                           @PathVariable("taskId") Integer taskId,
+                                                           @RequestBody Task task
+                                                           ){
+        int userId = (Integer) request.getAttribute(("userId"));
+        taskService.updateTask(userId, taskId, task);
+        Map<String, Boolean> map = new HashMap<>();
+        map.put("Update success", true);
+        return new ResponseEntity<>(map, HttpStatus.OK);
+    }
+    @DeleteMapping("/{taskId}")
+    public ResponseEntity<Map<String,Boolean>> deleteTask(HttpServletRequest request,
+                                                          @PathVariable("taskId") Integer taskId
+                                                          ){
+        int userId = (Integer) request.getAttribute(("userId"));
+        taskService.removeTask(userId, taskId);
+        Map<String, Boolean> map = new HashMap<>();
+        map.put("Delete success", true);
+        return new ResponseEntity<>(map, HttpStatus.OK);
     }
 }

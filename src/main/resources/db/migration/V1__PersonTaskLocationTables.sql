@@ -8,17 +8,17 @@ CREATE TABLE IF NOT EXISTS person (
     PRIMARY KEY (id)
 );
 
-CREATE TYPE taskType AS ENUM ('HOUSE_CHORES', 'SCHOOL_WORK', 'PART_TIME', 'INTERN', 'WORK', 'FITNESS', 'HEALTH');
+CREATE TYPE taskType AS ENUM ('HOUSE_CHORES', 'SCHOOL_WORK', 'PART_TIME', 'INTERN', 'WORK', 'FITNESS', 'HEALTH', 'GENERIC');
 CREATE TYPE status AS ENUM ('ONGOING', 'PAUSED', 'OVERDUE', 'COMPLETED');
 CREATE TABLE IF NOT EXISTS task (
     id SERIAL,
     name VARCHAR (100) NOT NULL,
     description VARCHAR (65535),
-    taskType taskType,
+    taskType taskType NOT NULL,
     dateCreated TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
     dateToComplete TIMESTAMP,
     dateCompleted TIMESTAMP,
-    status status,
+    status status NOT NULL,
     PRIMARY KEY (id),
     userId INT NOT NULL REFERENCES person(id) ON DELETE CASCADE
 );
